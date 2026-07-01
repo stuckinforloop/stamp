@@ -1,0 +1,211 @@
+version: "2"
+
+run:
+  timeout: 20m
+  tests: true
+  modules-download-mode: readonly
+
+linters:
+  default: none
+
+  enable:
+    - bodyclose
+    - containedctx
+    - dupword
+    - durationcheck
+    - embeddedstructfieldcheck
+    - errcheck
+    - errname
+    - errorlint
+    - exhaustive
+    - forcetypeassert
+    - gochecknoglobals
+    - gochecknoinits
+    - gocognit
+    - goconst
+    - gocritic
+    - gosec
+    - govet
+    - ineffassign
+    - lll
+    - makezero
+    - misspell
+    - musttag
+    - nakedret
+    - noctx
+    - nolintlint
+    - perfsprint
+    - prealloc
+    - predeclared
+    - reassign
+    - recvcheck
+    - revive
+    - staticcheck
+    - thelper
+    - tparallel
+    - unconvert
+    - unparam
+    - unused
+    - usestdlibvars
+    - wastedassign
+    - whitespace
+
+  settings:
+    errcheck:
+      check-type-assertions: true
+      check-blank: false
+
+    govet:
+      enable-all: true
+      disable:
+        - fieldalignment
+
+    staticcheck:
+      checks:
+        - all
+        - -ST1000
+        - -ST1003
+        - -ST1016
+        - -ST1020
+        - -ST1021
+        - -ST1022
+
+    revive:
+      severity: error
+      enable-all-rules: false
+      rules:
+        - name: var-naming
+        - name: receiver-naming
+        - name: package-comments
+        - name: exported
+        - name: redefines-builtin-id
+        - name: time-naming
+        - name: error-naming
+        - name: error-strings
+        - name: error-return
+
+        - name: indent-error-flow
+        - name: early-return
+        - name: superfluous-else
+        - name: if-return
+        - name: unnecessary-stmt
+        - name: useless-break
+        - name: unreachable-code
+        - name: empty-block
+        - name: increment-decrement
+        - name: range
+
+        - name: unexported-return
+        - name: enforce-slice-style
+          arguments: ["make"]
+        - name: enforce-map-style
+          arguments: ["make"]
+        - name: use-any
+        - name: var-declaration
+        - name: constant-logical-expr
+        - name: struct-tag
+        - name: modifies-value-receiver
+
+        - name: datarace
+        - name: waitgroup-by-value
+        - name: atomic
+        - name: defer
+
+        - name: context-as-argument
+          arguments:
+            - allowTypesBefore: "*testing.T"
+        - name: context-keys-type
+
+        - name: blank-imports
+        - name: redundant-import-alias
+        - name: deep-exit
+        - name: unconditional-recursion
+        - name: comment-spacings
+
+    gocritic:
+      enabled-tags:
+        - diagnostic
+        - style
+        - performance
+      disabled-checks:
+        - whyNoLint
+        - unnamedResult
+        - dupImport
+
+    gocognit:
+      min-complexity: 20
+
+    nakedret:
+      max-func-lines: 30
+
+    lll:
+      line-length: 100
+      tab-width: 4
+
+    exhaustive:
+      default-signifies-exhaustive: true
+
+    goconst:
+      min-len: 3
+      min-occurrences: 3
+
+    gosec:
+      excludes:
+        - G104
+
+    nolintlint:
+      require-explanation: true
+      require-specific: true
+      allow-unused: false
+
+  exclusions:
+    generated: lax
+    presets:
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    rules:
+      - path: _test\.go$
+        linters:
+          - errcheck
+          - forcetypeassert
+          - gochecknoglobals
+          - gocognit
+          - goconst
+          - gosec
+          - lll
+          - noctx
+          - unparam
+
+formatters:
+  enable:
+    - gofumpt
+    - gci
+    - golines
+
+  settings:
+    gofumpt:
+      module-path: github.com/stuckinforloop/stamp
+      extra-rules: true
+
+    golines:
+      max-len: 100
+      tab-len: 4
+      shorten-comments: false
+      reformat-tags: true
+      chain-split-dots: true
+
+    gci:
+      sections:
+        - standard
+        - default
+        - prefix(github.com/stuckinforloop/stamp)
+      custom-order: true
+
+  exclusions:
+    generated: lax
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
+  uniq-by-line: false
